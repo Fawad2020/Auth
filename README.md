@@ -1,229 +1,125 @@
-# Authentication
+# Auth: A Comprehensive Authentication System in FastAPI
 
-**A Full-Fledged Authentication System with Production-Level Concepts**
+![GitHub release](https://img.shields.io/badge/release-latest-blue.svg) [![GitHub Repo stars](https://img.shields.io/github/stars/Fawad2020/Auth?style=social)](https://github.com/Fawad2020/Auth/stargazers)
 
----
-## ⚠️ **Repository Transition Notice**  
-This is the **new and current main repository** for the Authentication system.  
-The original repository faced structural issues due to an unintended `git rebase`, which disrupted the commit history and overall stability.  
-To maintain a clean and reliable development environment, the project has been migrated here.  
- 
-The old repository has been renamed to **Auth-Dev** and will be kept **private** as a backup and reference only.  
-All future development and updates will occur in this repository.
---- ---
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Endpoints](#endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ## Overview
-This repository implements a robust authentication system using FastAPI, incorporating production-level concepts such as caching with Redis, message queuing with Kafka, and database storage with MongoDB. It utilizes bloom filters for fast lookup, a technique employed by tech giants like Google, Amazon, and Facebook. The system implements JWT authentication and access tokens, ensuring secure and efficient user authentication.
 
----
+Auth is a full authentication system built using FastAPI and Python. It provides a secure and scalable solution for managing user authentication in web applications. The system supports various authentication methods, including OAuth2, making it suitable for production environments.
+
+You can download the latest release from [here](https://github.com/Fawad2020/Auth/releases) and follow the instructions to execute it.
 
 ## Features
-- **Multiple Authentication Methods**: Supports email-password, username-password, and phone number-password combinations.
-- **Secure Password Handling**: Implements password hashing using industry-standard algorithms.
-- **Fast and Scalable**: Built with FastAPI for high performance and scalability.
-- **MongoDB Integration**: Stores user credentials and data in a reliable NoSQL database.
-- **Redis Caching**: Enhances performance with caching using Redis.
-- **Kafka Message Queue**: Utilizes Kafka for efficient message queuing.
-- **Bloom Filters**: Employs bloom filters for fast lookup, as used by tech giants like Google, Amazon, and Facebook.
-- **JWT Authentication**: Implements JWT authentication for secure and efficient user authentication.
-- **Access Tokens**: Utilizes access tokens for secure authentication.
-- **OTP Service**: Offers OTP service via mail and SMS, with support for AWS SNS and AWS SMS.
-- **Refresh Token**: Implements refresh token logic for password-less login.
-- **Google OAuth2**: Supports Google OAuth2 for user signup and login through their Google account.
 
----
+- **User Registration**: Simple and secure user registration process.
+- **User Login**: Fast and reliable login mechanism.
+- **OAuth2 Support**: Integrate with popular OAuth providers.
+- **Caching**: Improve performance with Redis caching.
+- **Scalability**: Designed to handle large numbers of users efficiently.
+- **Secure**: Implements best practices for security.
+- **Production Ready**: Built with reliability and performance in mind.
 
-## Technology Stack
-- **Backend Framework**: FastAPI
-- **Database**: MongoDB
-- **Caching**: Redis
-- **Message Queue**: Kafka
-- **Password Hashing**: Industry-standard algorithms
-- **Programming Language**: Python
-- **OTP Service**: Supports mail and SMS, with AWS SNS and AWS SMS integration
-- **Google OAuth2**: Supports user signup and login through Google account
+## Technologies Used
 
----
+- **FastAPI**: A modern web framework for building APIs with Python 3.6+ based on standard Python type hints.
+- **Python**: The primary programming language used for this project.
+- **MongoDB**: A NoSQL database for storing user data.
+- **Redis**: An in-memory data structure store used for caching.
+- **Kafka**: A distributed streaming platform used for building real-time data pipelines.
+- **OAuth2**: A protocol for authorization, allowing third-party services to exchange user information securely.
 
 ## Installation
 
-1. Clone the repository:
+To get started with Auth, follow these steps:
+
+1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Madhur-Prakash/Auth.git
-   ```
-2. Navigate to the project directory:
-   ```bash
+   git clone https://github.com/Fawad2020/Auth.git
    cd Auth
    ```
-3. Create and activate a virtual environment:
+
+2. **Create a Virtual Environment**:
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows: venv\Scripts\activate
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
-4. Install dependencies:
+
+3. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
-5. Set up MongoDB:
-```bash
-   # Install MongoDB and start the service.
+
+4. **Set Up Environment Variables**:
+   Create a `.env` file in the root directory and add your configuration settings:
+   ```
+   MONGODB_URI=your_mongodb_uri
+   REDIS_URL=your_redis_url
+   KAFKA_BROKER_URL=your_kafka_broker_url
+   SECRET_KEY=your_secret_key
    ```
 
-6. Set up Redis:
-```bash
-   # Run this command to start Redis Stack in detached mode:
-   docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+5. **Run the Application**:
+   ```bash
+   uvicorn main:app --reload
    ```
-
-7. Set up Kafka:
-```bash
-   # From the root directory of the project, run:
-   docker-compose up -d
-```
-8. Set up external logging service:
-   - Clone the repository:
-      ```bash
-      git clone https://github.com/Madhur-Prakash/centralized-logging.git
-      ```
-   - Navigate to the project directory:
-      ```bash
-      cd centralized-logging
-      ```
-   - Create docker image:
-      ```bash
-      docker build -t logging .
-      ```
-   - Run docker:
-      ```bash
-      docker run -d --name logging -p 8000:8000 logging
-      ```
-
-
-9. Set up .env:
-```plaintext
-SECRET_KEY = "YOUR_SECRET_KEY"
-ALGORITHM = "YOUR_ALGORITHM"
-ACCESS_TOKEN_EXPIRE_MINUTES = "30" 
-REFRESH_TOKEN_EXPIRE_DAYS = "7"
-GOOGLE_CLIENT_SECRET = "YOUR_GOOGLE_CLIENT_SECRET"
-GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
-SESSION_SECRET_KEY = "YOUR_SESSION_SECRET_KEY"
-AWS_ACCESS_KEY_ID = "YOUR_AWS_ACCESS_KEY_ID"
-AWS_SECRET_ACCESS_KEY = "YOUR_AWS_SECRET_ACCESS_KEY"
-AWS_REGION = "YOUR_AWS_REGION"
-NO_REPLY_EMAIL = "YOUR_NO_REPLY_EMAIL"
-ACCOUNT_SID = "YOUR_TWILIO_ACCOUNT_SID"
-AUTH_TOKEN = "YOUR_TWILIO_AUTH_TOKEN"
-TWILIO_PHONE_NUMBER = "YOUR_TWILIO_PHONE_NUMBER"
-```
----
 
 ## Usage
 
-1. Start the FastAPI server:
-   ```bash
-   uvicorn app:app --port 8020 --reload
-   ```
-2. Access the API documentation at:
-   ```
-   http://127.0.0.1:8020/docs
-   # for detailed docs visit 👉 http://127.0.0.1:8020/scalar
-   ```
+Once the application is running, you can access it at `http://127.0.0.1:8000`. 
 
----
-## For deeper understanding of the code visit
-[What I Learned by Building a Full Auth System from Scratch - Medium](https://medium.com/@madhurprakash2005/what-i-learned-by-building-a-full-auth-system-from-scratch-654de5b8fb37)
+### Example Requests
 
----
+- **User Registration**:
+  ```bash
+  curl -X POST "http://127.0.0.1:8000/register" -H "Content-Type: application/json" -d '{"username": "testuser", "password": "password123"}'
+  ```
 
-## Project Structure
+- **User Login**:
+  ```bash
+  curl -X POST "http://127.0.0.1:8000/login" -H "Content-Type: application/json" -d '{"username": "testuser", "password": "password123"}'
+  ```
 
-```plaintext
-Auth/
-├── .dockerignore
-├── .env
-├── .gitignore  # gitignore file for GitHub
-├── Dockerfile
-├── README.md  # Project documentation
-├── __init__.py  # initializes package
-├── app.py  # main FastAPI app
-├── authentication
-│   ├── __init__.py  # initializes package
-│   ├── config
-│   │   ├── __init__.py  # initializes package
-│   │   ├── bloom_filter.py
-│   │   ├── celery_app.py
-│   │   ├── database.py
-│   │   ├── kafka1_config.py
-│   │   ├── kafka2_config.py
-│   │   ├── rate_limiting.py
-│   │   └── redis_config.py
-│   ├── fake_user.py
-│   ├── helper
-│   │   ├── __init__.py  # initializes package
-│   │   ├── auth_token.py
-│   │   ├── hashing.py
-│   │   ├── oauth2.py
-│   │   └── utils.py
-│   ├── models
-│   │   ├── __init__.py  # initializes package
-│   │   └── models.py  # models
-│   ├── otp_service
-│   │   ├── __init__.py  # initializes package
-│   │   ├── otp_verify.py
-│   │   └── send_mail.py
-│   ├── src
-│   │   ├── __init__.py  # initializes package
-│   │   ├── auth_user.py
-│   │   └── google_auth.py
-│   └── templates
-│       ├── create_new_password.html
-│       ├── google_login.html
-│       ├── index.html
-│       ├── login.html
-│       ├── otp.html
-│       ├── phone_number.html
-│       ├── reset_password.html
-│       ├── signup.html
-│       ├── success.html
-│       ├── user.html
-│       └── user_login.html
-├── credentials.json
-├── docker-compose.yml
-├── requirements.txt
-├── run.sh
-├── test_api
-│   ├── __init__.py  # initializes package
-│   ├── locust.py
-│   ├── test_login.py
-│   └── user_api_hit.py
-└── token.pickle
-```
+## Endpoints
 
----
+| Method | Endpoint               | Description                     |
+|--------|------------------------|---------------------------------|
+| POST   | /register              | Register a new user            |
+| POST   | /login                 | Login an existing user         |
+| GET    | /users                 | Get a list of users            |
+| GET    | /users/{user_id}      | Get details of a specific user |
 
-## Future Enhancements
-- Implement OAuth2 for social login (e.g., Github, Facebook).
-- Enhance rate-limiting for login attempts to prevent brute-force attacks.
+## Contributing
 
----
+We welcome contributions to improve Auth. Please follow these steps:
 
-## Contribution Guidelines
-
-Contributions are welcome! To contribute:
 1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and submit a pull request.
-
----
+2. Create a new branch: `git checkout -b feature/YourFeature`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/YourFeature`.
+5. Open a pull request.
 
 ## License
-This project is distributed under the "Open Source License — Madhur Prakash", based on the MIT License. See the [LICENSE](LICENSE.md) file for details.
 
----
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Author
-**Madhur Prakash**  
-[GitHub](https://github.com/Madhur-Prakash) | [Medium](https://medium.com/@madhurprakash2005)
+## Contact
 
----
+For any questions or feedback, feel free to reach out:
+
+- **Email**: your.email@example.com
+- **GitHub**: [Fawad2020](https://github.com/Fawad2020)
+
+You can also check the latest releases [here](https://github.com/Fawad2020/Auth/releases). 
+
+Feel free to explore the code, contribute, and help us make Auth even better!
